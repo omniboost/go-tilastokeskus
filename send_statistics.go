@@ -91,15 +91,9 @@ func (r *SendStatisticsRequest) RequestHeaderInterface() interface{} {
 	return &r.requestHeader
 }
 
-type SendStatisticsRequestHeader struct {
-	// AuthenticationContext AuthenticationContext `xml:"AuthenticationContext"`
-}
+type SendStatisticsRequestHeader struct{}
 
 func (r SendStatisticsRequest) NewRequestBody() SendStatisticsRequestBody {
-	// majoitustilasto := Majoitustilasto{
-	// 	Xmlns: "http://tempuri.org/majoitustilasto.xsd",
-	// 	Liike: CreateLiike()
-	// }
 	return SendStatisticsRequestBody{
 		DataTransfer: DataTransfer{
 			UserID:   r.client.Username(),
@@ -174,29 +168,3 @@ type FolioDetailsRequest struct {
 	PMSNumber    string   `xml:"PMSNumber"`
 	Language     string   `xml:"Language"`
 }
-
-// type StatisticsData struct {
-// 	ReportDate      time.Time
-// 	EstablishmentID string
-// 	Statistics      []StatisticsEntry
-// }
-//
-// type StatisticsEntry struct {
-// 	CountryCode   string
-// 	Arrivals      int
-// 	NightsSpent   int
-// 	Purpose       PurposeStats
-// 	Accommodation AccommodationStats
-// }
-//
-// type PurposeStats struct {
-// 	Leisure  int
-// 	Business int
-// 	Other    int
-// }
-//
-// type AccommodationStats struct {
-// 	Room    int
-// 	Caravan int
-// 	Tent    int
-// }
