@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Esimerkkitiedosto majoitusliikkeiden tiedoista XML-muodossa -->
+<majoitustilasto xmlns="http://tempuri.org/majoitustilasto.xsd">
+  <!-- Liike-erittely -->
+  <!-- Liikkeit? voi tarvittaessa olla useampia -->
+  <liike tunnus="12345">
+    <!-- Ajankohtaerittely -->
+    <!-- Ajankohtia voi tarvittaessa olla usempia -->
+    <!-- Attribuutit identifioivat, mist? ajankohdasta on kyse -->
+    <ajankohta vuosi="2005" kuukausi="01">
+      <kuukausitieto>
+        <aukiolopaivat><!-- liikkeen aukiolop?iv?t tilastointikuukautena (int) -->
+					15
+				</aukiolopaivat>
+        <huoneet><!-- 
+						Liikkeell? k?ytett?viss? olevat huoneet tai 
+						m?kit tilastointikuukauden aikana (int)
+					-->
+					50
+				</huoneet>
+        <vuoteet><!-- 
+						Liikkeell? k?ytett?viss? olevat vuoteet tilastointikuukauden 
+						aikana, ilman lis?vuoteita. (int)
+					-->
+					100
+				</vuoteet>
+        <kuukausikaytto>9</kuukausikaytto>
+        <myynti>7000</myynti>
+      </kuukausitieto>
+      <yopymiset avain="FI">
+        <saapuneet>50</saapuneet>
+        <yopyneet>70</yopyneet>
+        <matkantarkoitus>
+          <vapaaaika>40</vapaaaika>
+          <ammatti>30</ammatti>
+          <muut>0</muut>
+        </matkantarkoitus>
+        <majoitusmuoto>
+          <huone>70</huone>
+          <matkailuvaunu>0</matkailuvaunu>
+          <teltta>0</teltta>
+        </majoitusmuoto>
+      </yopymiset>
+      <yopymiset avain="UL">
+        <saapuneet>10</saapuneet>
+        <yopyneet>15</yopyneet>
+        <matkantarkoitus>
+          <vapaaaika>10</vapaaaika>
+          <ammatti>5</ammatti>
+          <muut>0</muut>
+        </matkantarkoitus>
+        <majoitusmuoto>
+          <huone>15</huone>
+          <matkailuvaunu>0</matkailuvaunu>
+          <teltta>0</teltta>
+        </majoitusmuoto>
+        <maaerittely>
+          <maa maakoodi="SE">
+            <saapuneet>8</saapuneet>
+            <yopyneet>10</yopyneet>
+          </maa>
+          <maa maakoodi="NO">
+            <saapuneet>2</saapuneet>
+            <yopyneet>5</yopyneet>
+          </maa>
+        </maaerittely>
+      </yopymiset>
+    </ajankohta>
+    <ajankohta vuosi="2005" kuukausi="02">
+      <!-- ajankohtia voi olla useampia -->
+    </ajankohta>
+  </liike>
+</majoitustilasto>

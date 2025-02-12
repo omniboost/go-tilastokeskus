@@ -1,13 +1,34 @@
 package tilastokeskus
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 type DataTransfer struct {
 	DataID   int    `xml:"stat:dataId"`
 	UserID   string `xml:"stat:userId"`
 	Password string `xml:"stat:password"`
 	Flags    string `xml:"stat:flags"`
-	Data     string `xml:"stat:data"`
+	Data     Data   `xml:"stat:data"`
+}
+
+type Data struct {
+	Majoitustilasto Majoitustilasto `xml:"majoitustilasto"`
+}
+
+func (d Data) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	// double encode xml
+
+	// use alias to prevent infinite recursion
+	type alias Data
+	a := alias(d)
+
+	b, err := xml.Marshal(a)
+	if err != nil {
+		return err
+	}
+
+	return e.EncodeElement(b, start)
 }
 
 type DataTransferResponse struct {

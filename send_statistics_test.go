@@ -1,63 +1,39 @@
 package tilastokeskus_test
 
 import (
+	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"log"
+	"os"
 	"testing"
+
+	tilastokeskus "github.com/omniboost/go-tilastokeskus"
+	"golang.org/x/net/html/charset"
 )
 
 func TestSendStatisticsRequest(t *testing.T) {
-	req := client.NewSendStatisticsRequest()
-	// req.RequestBody().HcsListServices.PropertyCode = "UTR"
-	// req.RequestBody().HcsListServices.Language = "NL"
-	// data := tilastokeskus.StatisticsData{
-	// 	ReportDate:     time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC),
-	// 	EstablishmentID: "12345",
-	// 	Statistics: []tilastokeskus.StatisticsEntry{
-	// 		{
-	// 			CountryCode: "FI",
-	// 			Arrivals:    50,
-	// 			NightsSpent: 70,
-	// 			Purpose: tilastokeskus.PurposeStats{
-	// 				Leisure:  40,
-	// 				Business: 30,
-	// 				Other:    0,
-	// 			},
-	// 			Accommodation: tilastokeskus.AccommodationStats{
-	// 				Room:    70,
-	// 				Caravan: 0,
-	// 				Tent:    0,
-	// 			},
-	// 		},
-	// 		{
-	// 			CountryCode: "SE",
-	// 			Arrivals:    8,
-	// 			NightsSpent: 10,
-	// 			Purpose: tilastokeskus.PurposeStats{
-	// 				Leisure:  6,
-	// 				Business: 4,
-	// 				Other:    0,
-	// 			},
-	// 			Accommodation: tilastokeskus.AccommodationStats{
-	// 				Room:    10,
-	// 				Caravan: 0,
-	// 				Tent:    0,
-	// 			},
-	// 		},
-	// 	},
-	// }
+	b, err := os.ReadFile("docs/majoitustilasto.xml")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	// req.SetData(data)
-	// resp, err := req.Do()
-	// if err != nil {
-	// 	t.Error(err)
-	// }
+	majoitustilasto := tilastokeskus.Majoitustilasto{}
+	decoder := xml.NewDecoder(bytes.NewReader(b))
+	decoder.CharsetReader = charset.NewReaderLabel
+	err = decoder.Decode(&majoitustilasto)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req := client.NewSendStatisticsRequest()
+	req.RequestBody().DataTransfer.Data.Majoitustilasto = majoitustilasto
 
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
 	}
 
-	b, _ := json.MarshalIndent(resp, "", "  ")
+	b, _ = json.MarshalIndent(resp, "", "  ")
 	log.Println(string(b))
 }
