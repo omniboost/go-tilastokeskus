@@ -9,7 +9,7 @@ import (
 
 func Fields(obj interface{}) ([]string, error) {
 	if !HasValidType(obj, []reflect.Kind{reflect.Struct, reflect.Ptr}) {
-		return nil, errors.New("Cannot use GetField on a non-struct interface")
+		return nil, errors.New("cannot use GetField on a non-struct interface")
 	}
 
 	objValue := ReflectValue(obj)

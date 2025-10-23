@@ -33,9 +33,7 @@ type ResponseEnvelope struct {
 func (env RequestEnvelope) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start.Name = xml.Name{Local: "soap:Envelope"}
 
-	for _, ns := range env.NS {
-		start.Attr = append(start.Attr, ns)
-	}
+	start.Attr = append(start.Attr, env.NS...)
 
 	type alias RequestEnvelope
 	a := alias(env)

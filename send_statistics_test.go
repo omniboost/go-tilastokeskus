@@ -2,14 +2,14 @@ package tilastokeskus_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"encoding/xml"
 	"log"
 	"os"
 	"testing"
 
-	tilastokeskus "github.com/omniboost/go-tilastokeskus"
-	"golang.org/x/net/html/charset"
+	"github.com/omniboost/go-tilastokeskus"
 )
 
 func TestSendStatisticsRequest(t *testing.T) {
@@ -20,7 +20,6 @@ func TestSendStatisticsRequest(t *testing.T) {
 
 	majoitustilasto := tilastokeskus.Majoitustilasto{}
 	decoder := xml.NewDecoder(bytes.NewReader(b))
-	decoder.CharsetReader = charset.NewReaderLabel
 	err = decoder.Decode(&majoitustilasto)
 	if err != nil {
 		t.Fatal(err)
@@ -29,7 +28,7 @@ func TestSendStatisticsRequest(t *testing.T) {
 	req := client.NewSendStatisticsRequest()
 	req.RequestBody().DataTransfer.Data.Majoitustilasto = majoitustilasto
 
-	resp, err := req.Do()
+	resp, err := req.Do(context.Background())
 	if err != nil {
 		t.Error(err)
 	}

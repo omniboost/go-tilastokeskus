@@ -1,6 +1,7 @@
 package tilastokeskus
 
 import (
+	"context"
 	"encoding/xml"
 	"net/http"
 	"net/url"
@@ -139,11 +140,11 @@ func (r *SendStatisticsRequest) URL() *url.URL {
 	return &u
 }
 
-func (r *SendStatisticsRequest) Do() (SendStatisticsResponseBody, error) {
+func (r *SendStatisticsRequest) Do(ctx context.Context) (SendStatisticsResponseBody, error) {
 	var err error
 
 	// Create http request
-	req, err := r.client.NewRequest(nil, r)
+	req, err := r.client.NewRequest(ctx, r)
 	if err != nil {
 		return *r.NewResponseBody(), err
 	}

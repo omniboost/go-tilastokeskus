@@ -11,19 +11,18 @@ import (
 	null "gopkg.in/guregu/null.v3"
 
 	"github.com/gorilla/schema"
-	"github.com/omniboost/go-unit4-multivers/odata"
 )
 
 var (
 	// register custom encoders
 	EncodeSchemaMarshaler = func(v reflect.Value) string {
 		marshaler, ok := v.Interface().(SchemaMarshaler)
-		if ok == true {
+		if ok {
 			return marshaler.MarshalSchema()
 		}
 
 		stringer, ok := v.Interface().(fmt.Stringer)
-		if ok == true {
+		if ok {
 			return stringer.String()
 		}
 
@@ -44,7 +43,7 @@ func AddQueryParamsToRequest(requestParams interface{}, req *http.Request, skipE
 	params := url.Values{}
 
 	to, ok := requestParams.(ToURLValues)
-	if ok == true {
+	if ok {
 		params, err = to.ToURLValues()
 		if err != nil {
 			return err
@@ -79,20 +78,13 @@ func AddURLValuesToRequest(params url.Values, req *http.Request, skipEmpty bool)
 	req.URL.RawQuery = query.Encode()
 
 	// force $ in query parameters
-	req.URL.RawQuery = strings.Replace(req.URL.RawQuery, "%24", "$", -1)
+	req.URL.RawQuery = strings.ReplaceAll(req.URL.RawQuery, "%24", "$")
 	// req.URL.RawQuery = strings.Replace(req.URL.RawQuery, "+", "%20", -1)
 	return nil
 }
 
 func NewSchemaEncoder() *schema.Encoder {
 	encoder := schema.NewEncoder()
-
-	encoder.RegisterEncoder(&odata.Expand{}, EncodeSchemaMarshaler)
-	encoder.RegisterEncoder(&odata.Filter{}, EncodeSchemaMarshaler)
-	encoder.RegisterEncoder(&odata.Select{}, EncodeSchemaMarshaler)
-	encoder.RegisterEncoder(&odata.Top{}, EncodeSchemaMarshaler)
-	encoder.RegisterEncoder(&odata.OrderBy{}, EncodeSchemaMarshaler)
-	encoder.RegisterEncoder(&odata.Skip{}, EncodeSchemaMarshaler)
 
 	encodeNullFloat := func(v reflect.Value) string {
 		nullFloat, _ := v.Interface().(null.Float)

@@ -236,7 +236,7 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 // pointed to by v, or returned as an error if an Client error has occurred. If v implements the io.Writer interface,
 // the raw response will be written to v, without attempting to decode it.
 func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error) {
-	if c.debug == true {
+	if c.debug {
 		dump, _ := httputil.DumpRequestOut(req, true)
 		log.Println(string(dump))
 	}
@@ -257,7 +257,7 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 		}
 	}()
 
-	if c.debug == true {
+	if c.debug {
 		dump, _ := httputil.DumpResponse(httpResp, true)
 		log.Println(string(dump))
 	}
@@ -428,7 +428,7 @@ func checkContentType(response *http.Response) error {
 	header := response.Header.Get("Content-Type")
 	contentType := strings.Split(header, ";")[0]
 	if contentType != mediaType {
-		return fmt.Errorf("Expected Content-Type \"%s\", got \"%s\"", mediaType, contentType)
+		return fmt.Errorf("expected Content-Type \"%s\", got \"%s\"", mediaType, contentType)
 	}
 
 	return nil
@@ -495,8 +495,6 @@ func (f SOAPFault) Error() string {
 	}
 
 	ll = pie.Unique(pie.Strings(ll))
-
-	// ll = pie.Strings(ll).Unique()
 
 	return strings.Join(ll, ", ")
 }

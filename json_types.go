@@ -11,7 +11,7 @@ type Date struct {
 }
 
 func (d Date) MarshalSchema() string {
-	return d.Time.Format("2006-01-02")
+	return d.Format("2006-01-02")
 }
 
 func (t *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
