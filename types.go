@@ -18,12 +18,7 @@ type Data struct {
 
 func (d Data) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	// double encode xml
-
-	// use alias to prevent infinite recursion
-	type alias Data
-	a := alias(d)
-
-	b, err := xml.Marshal(a)
+	b, err := xml.Marshal(d.Majoitustilasto)
 	if err != nil {
 		return err
 	}

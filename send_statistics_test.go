@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/omniboost/go-tilastokeskus"
+	"golang.org/x/net/html/charset"
 )
 
 func TestSendStatisticsRequest(t *testing.T) {
@@ -20,6 +21,7 @@ func TestSendStatisticsRequest(t *testing.T) {
 
 	majoitustilasto := tilastokeskus.Majoitustilasto{}
 	decoder := xml.NewDecoder(bytes.NewReader(b))
+	decoder.CharsetReader = charset.NewReaderLabel
 	err = decoder.Decode(&majoitustilasto)
 	if err != nil {
 		t.Fatal(err)
