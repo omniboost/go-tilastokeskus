@@ -64,13 +64,16 @@ type Yopymiset struct {
 	Yopyneet        int             `xml:"yopyneet"`
 	Matkantarkoitus Matkantarkoitus `xml:"matkantarkoitus"`
 	Majoitusmuoto   Majoitusmuoto   `xml:"majoitusmuoto"`
-	Maaerittely     []Maaerittely   `xml:"maaerittely>maa"`
+	Maaerittely     *Maaerittely    `xml:"maaerittely,omitempty"`
+}
+
+type Maaerittely struct {
+	Maa []Maa `xml:"maa"`
 }
 
 type Matkantarkoitus struct {
 	VapaaAika int `xml:"vapaaaika"`
 	Ammatti   int `xml:"ammatti"`
-	Muut      int `xml:"muut"`
 }
 
 type Majoitusmuoto struct {
@@ -79,7 +82,7 @@ type Majoitusmuoto struct {
 	Teltta        int `xml:"teltta"`
 }
 
-type Maaerittely struct {
+type Maa struct {
 	MaaKoodi  string `xml:"maakoodi,attr"`
 	Saapuneet int    `xml:"saapuneet"`
 	Yopyneet  int    `xml:"yopyneet"`
