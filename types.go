@@ -74,6 +74,7 @@ type Maaerittely struct {
 type Matkantarkoitus struct {
 	VapaaAika int `xml:"vapaaaika"`
 	Ammatti   int `xml:"ammatti"`
+	Muut      int `xml:"muut"`
 }
 
 type Majoitusmuoto struct {
